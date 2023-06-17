@@ -19,7 +19,7 @@ app.use("/api/v1/tickets",ticketRouter);
 const PORT = 8000;
 
 app.get("/",(req, res)=>{
-    res.send("Hello!");
+    res.send("Hello!!");
 });
 
 mongoose.connection.once("open",()=>{
