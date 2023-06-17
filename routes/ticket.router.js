@@ -6,16 +6,16 @@ const { createTicket, getAllTickets, getTicketById, updateTicketById } = require
 
 const ticketRouter = express.Router();
 
-ticketRouter.route("/",[verifyJWT, verifyTicket])
-    .post(createTicket);
+ticketRouter.route("/")
+    .post([verifyJWT, verifyTicket], createTicket);
 
-ticketRouter.route("/",[verifyJWT])
-    .get(getAllTickets);
+ticketRouter.route("/")
+    .get([verifyJWT], getAllTickets);
 
-ticketRouter.route("/:id",[verifyJWT])
-    .get(getTicketById);
+ticketRouter.route("/:id")
+    .get([verifyJWT], getTicketById);
 
-ticketRouter.route("/:id",[verifyJWT, verifyTicketUpdateRequest])
-    .post(updateTicketById);
+ticketRouter.route("/:id")
+    .post([verifyJWT, verifyTicketUpdateRequest], updateTicketById);
 
 module.exports = ticketRouter;

@@ -6,14 +6,14 @@ const { getAllUsers, getUserById, updateUserById } = require("../controllers/use
 
 const userRouter = express.Router();
 
-userRouter.route("/",[verifyJWT, verifyAdmin])
-    .get(getAllUsers);
+userRouter.route("/")
+    .get([verifyJWT, verifyAdmin], getAllUsers);
 
-userRouter.route("/:id",[verifyJWT, verifyAdminOrOwnUser])
-    .get(getUserById);
+userRouter.route("/:id")
+    .get([verifyJWT, verifyAdminOrOwnUser], getUserById);
 
-userRouter.route("/:id",[verifyJWT, verifyAdmin])
-    .post(updateUserById);
+userRouter.route("/:id")
+    .post([verifyJWT, verifyAdmin], updateUserById);
 
 
 module.exports = userRouter;

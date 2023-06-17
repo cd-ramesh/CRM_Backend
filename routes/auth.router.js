@@ -5,8 +5,8 @@ const { registerHandler, loginHandler } = require("../controllers/auth.controlle
 
 const authRouter = express.Router();
 
-authRouter.route("/register",[verifyRegister])
-    .post(registerHandler);
+authRouter.route("/register")
+    .post([verifyRegister], registerHandler);
 
 
 authRouter.route("/login")
