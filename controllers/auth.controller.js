@@ -24,10 +24,12 @@ const registerHandler = async (req, res)=>{
 
     try{
         await newUser.save();
-        res.status(201).send({message: "User registration successful."})
+        res.status(201).send({message: "User registration successful."});
+        return;
     }catch(err){
         console.log(err);
         res.status(500).send({message: "Internal server error."});
+        return;
     }
 }
 
@@ -37,18 +39,23 @@ const loginHandler = async (req, res)=>{
         const user = await User.findOne({userId: req.body.userId});
         if(!user){
             res.status(404).send({message: "UserId passed is invalid."});
+            return;
         }else if(user.userStatus !== userStatus.approved){
             res.status(403).send({message: `User status is ${user.userStatus}`});
+            return;
         }else if(cryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY).toString(cryptoJS.enc.Utf8) === req.body.password){
             const jwtToken = jwt.sign({userId: user.userId},process.env.JWT_SECRET_KEY);
             const {password, ...rest} = user._doc;
             res.send({...rest,jwtToken});
+            return;
         }else{
-            res.status(401).send({message: "Invalid password."})
+            res.status(401).send({message: "Invalid password."});
+            return;
         }
     }catch(err){
         console.log(err);
         res.status(500).send({message: "Internal server error."});
+        return;
     }
 }
 
