@@ -2,6 +2,7 @@ const cryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const { userType, userStatus } = require("../constants");
 const User = require("../models/user.model");
+const sendMail = require("../utils/sendMail");
 
 
 const registerHandler = async (req, res)=>{
@@ -25,6 +26,16 @@ const registerHandler = async (req, res)=>{
     try{
         await newUser.save();
         res.status(201).send({message: "User registration successful."});
+        sendMail({
+            subject: 'Registration Successful!',
+            to: newUser.email,
+            html: `
+            <h3>Welcome ${newUser.name},</h3>
+            <p>User ID: ${newUser.userId}</p>
+            <p>User Type: ${newUser.userType}</p>
+            <p>User Status: ${newUser.userStatus}</p>
+            `
+        })
         return;
     }catch(err){
         console.log(err);
