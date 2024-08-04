@@ -30,7 +30,7 @@ const getAllTickets = async (req, res)=>{
     try{
         const user = await User.findOne({userId: req.userId});
         if(user.userType === userType.admin){
-            const tickets = await Ticket.find({});
+            const tickets = await Ticket.find({}).cache(30);
             res.send(tickets);
             return;
         }
@@ -40,7 +40,7 @@ const getAllTickets = async (req, res)=>{
         }else{
             query = {$or:[{assignee: req.userId}, {requester: req.userId}]};
         }
-        const tickets = await Ticket.find(query);
+        const tickets = await Ticket.find(query).cache(30);
         res.send(tickets);
         return;
     }catch(err){

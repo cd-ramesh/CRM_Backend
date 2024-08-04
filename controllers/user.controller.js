@@ -3,7 +3,7 @@ const { userStatus } = require("../constants");
 
 const getAllUsers = async (req, res)=>{
     try{
-        const users = await User.find({});
+        const users = await User.find({}).cache(30);
         res.send(users);
         return;
     }catch(err){
